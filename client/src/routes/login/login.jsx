@@ -43,8 +43,8 @@ function Login() {
       <div className="formContainer">
         <form onSubmit={handleSubmit}>
           <h1>Welcome back</h1>
-          <input name="username" required type="text" placeholder="Username" />
-          <input name="password" type="password" placeholder="Password" />
+          <input name="username" required type="text" placeholder="Username" defaultValue="admin" />
+          <input name="password" type="password" placeholder="Password" defaultValue="welcome" />
           <button disabled={isLoadind}>Login</button>
           { error && <span>{error}</span> }
           <Link to="/register">{"Don't"} you have an account?</Link>
