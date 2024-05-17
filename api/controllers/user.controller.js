@@ -118,7 +118,7 @@ export const savePost = async (req, res) => {
 
 export const profilePosts = async (req, res) => {
     try {
-        const tokenUserId = req.params.userId
+        const tokenUserId = req.userId
         const userPosts = await prisma.post.findMany({
             where: { userId: tokenUserId }
         })
@@ -130,6 +130,29 @@ export const profilePosts = async (req, res) => {
         })
         const savedPosts = saved.map(item => item.post)
         res.json({ userPosts, savedPosts })
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const getNotificationNumber = async (req, res) => {
+    const tokenUserId = req.userId
+    try {
+        const number = await prisma.chat.count({
+            where: {
+                userIDs: {
+                    hasSome: [tokenUserId]
+                },
+                NOT: {
+                    seenBy:{
+                        hasSome: [tokenUserId]
+                    }
+                }
+            }
+        })
+        
+        res.json(number)
 
     } catch (error) {
         console.log(error);
